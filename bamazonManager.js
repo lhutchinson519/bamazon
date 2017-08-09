@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-
+//creates the connection to mysql database
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -20,7 +20,7 @@ connection.connect(function(err) {
     start();
 })
 
-
+//when the page loads, a prompt is called. Depending on the selected answer, a new function is called.
 function start() {
 
     connection.query("SELECT * FROM products", function(err, results) {
@@ -58,14 +58,14 @@ function start() {
         })
     })
 }
-
+//function to display all products
 function productSale() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
         console.log(res);
     });
 }
-
+//function to display inventory that have less than 5 in stock
 function lowInventory() {
     connection.query("SELECT * FROM products", function(err, res) {
         console.log("Checking for low inventory...");
@@ -84,7 +84,7 @@ function lowInventory() {
         }
     });
 }
-
+//function to add quantity to a specific item in inventory
 function addInventory() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
@@ -138,7 +138,7 @@ function addInventory() {
     });
 };
 
-
+//function to add a new product using an inquirer prompt message
 function newProduct() {
 
     inquirer
@@ -169,6 +169,7 @@ function newProduct() {
                 }
             }
         ])
+    //then the product is insert into the databse through a connection query.
         .then(function(answer) {
         	console.log("Adding your product...");
 
